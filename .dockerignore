@@ -1,0 +1,7 @@
+.git
+.gitignore
+.gitlab-ci.yaml
+.werf*
+.ops
+!.ops/docker
+.deploy
