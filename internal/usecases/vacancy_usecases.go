@@ -43,7 +43,7 @@ func (svc *VacancyServiceImpl) GetAllVacancies(ctx context.Context) ([]*entity.V
 	}
 
 	if len(vacancies) == 0 {
-		return nil, fmt.Errorf("Вакансий не найдено")
+		return nil, fmt.Errorf("404")
 	}
 
 	return vacancies, nil
@@ -67,7 +67,6 @@ func (svc *VacancyServiceImpl) UpdateVacancy(ctx context.Context, vacancy *entit
 }
 
 func (svc *VacancyServiceImpl) DeleteVacancy(ctx context.Context, id int64) error {
-
 	err := svc.vacancyRepo.DeleteVacancy(ctx, id)
 	if err != nil {
 		return fmt.Errorf("Не удалось удалить вакансию: %w", err)

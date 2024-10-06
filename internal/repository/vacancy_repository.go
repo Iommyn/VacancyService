@@ -13,7 +13,6 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
-	"net/http"
 	"time"
 )
 
@@ -57,9 +56,9 @@ func (v vacancyRepository) GetVacancyByID(ctx context.Context, id int64) (*entit
 	vacancyModel, err := models.Vacansies(qm.Where("id = ?", id)).One(ctx, dbReplica)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			return nil, fmt.Errorf("vacancy not found")
+			return nil, fmt.Errorf("404")
 		}
-		return nil, fmt.Errorf("internal server error")
+		return nil, fmt.Errorf("500")
 	}
 
 	vacancy := &entity.Vacancy{
@@ -144,7 +143,7 @@ func (v vacancyRepository) DeleteVacancy(ctx context.Context, id int64) error {
 	}
 
 	if rowsAffected == 0 {
-		return fmt.Errorf("Вакансия не найдена: %v", http.StatusNotFound)
+		return fmt.Errorf("404")
 	}
 
 	return nil
