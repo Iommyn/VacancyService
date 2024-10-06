@@ -85,6 +85,7 @@ func (v vacancyRepository) GetAllVacancies(ctx context.Context) ([]*entity.Vacan
 	}
 
 	var vacancies []*entity.Vacancy
+	//Сомнительно
 	for _, vacancyModel := range vacancyModels {
 		vacancy := &entity.Vacancy{
 			ID:          vacancyModel.ID,
@@ -100,7 +101,7 @@ func (v vacancyRepository) GetAllVacancies(ctx context.Context) ([]*entity.Vacan
 }
 
 func (v vacancyRepository) UpdateVacancy(ctx context.Context, vacancy *entity.Vacancy) error {
-	dbReplica := v.db.GetReplica()
+	dbMaster := v.db.GetMaster()
 
 	vacancyModel := &models.Vacansy{
 		ID:          vacancy.ID,
@@ -109,7 +110,7 @@ func (v vacancyRepository) UpdateVacancy(ctx context.Context, vacancy *entity.Va
 		UpdatedAt:   time.Now(),
 	}
 
-	rowsAffected, err := vacancyModel.Update(ctx, dbReplica, boil.Infer())
+	rowsAffected, err := vacancyModel.Update(ctx, dbMaster, boil.Infer())
 	if err != nil {
 		return fmt.Errorf("500")
 	}
