@@ -61,13 +61,8 @@ func (h *vacancyHandler) GetAllVacancies(ctx *gin.Context) {
 func (h *vacancyHandler) CreateVacancy(ctx *gin.Context) {
 	var vacancy model.VacancyRequest
 	if err := ctx.ShouldBindJSON(&vacancy); err != nil {
-		h.logger.Error().Err(err).Msg("HTTP-Handler: Ошибка десериализации структуры VacancyRequestCreate")
-		ctx.JSON(http.StatusBadRequest, model.ErrorResponse{
-			Status:  http.StatusBadRequest,
-			Message: "Неверный формат данных",
-			Error:   err.Error(),
-		})
-
+		h.logger.Error().Err(err).Msg("HTTP-Handler: Ошибка десериализации структуры VacancyRequest")
+		h.handleErrorResponse(ctx, http.StatusBadRequest, "Неверный формат данных", err)
 		return
 	}
 
@@ -101,11 +96,7 @@ func (h *vacancyHandler) EditVacancy(ctx *gin.Context) {
 	var vacancy model.VacancyRequest
 	if err := ctx.ShouldBindJSON(&vacancy); err != nil {
 		h.logger.Error().Err(err).Msg("HTTP-Handler: Ошибка десериализации структуры VacancyRequestUpdate")
-		ctx.JSON(http.StatusBadRequest, model.ErrorResponse{
-			Status:  http.StatusBadRequest,
-			Message: "Неверный формат данных",
-			Error:   err.Error(),
-		})
+		h.handleErrorResponse(ctx, http.StatusBadRequest, "Неверный формат данных", err)
 		return
 	}
 
