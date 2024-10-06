@@ -23,6 +23,32 @@ func NewVacancyService(vacancyRepo repository.VacancyRepository, logger zerolog.
 	}
 }
 
+func (svc *VacancyServiceImpl) CreateVacancy(ctx context.Context, vacancy *entity.Vacancy) error {
+	return svc.vacancyRepo.CreateVacancy(ctx, vacancy)
+}
+
+func (svc *VacancyServiceImpl) GetVacancyByID(ctx context.Context, id int64) (*entity.Vacancy, error) {
+	vacancy, err := svc.vacancyRepo.GetVacancyByID(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return vacancy, nil
+}
+
+func (svc *VacancyServiceImpl) GetAllVacancies(ctx context.Context) ([]*entity.Vacancy, error) {
+	vacancies, err := svc.vacancyRepo.GetAllVacancies(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	if len(vacancies) == 0 {
+		return nil, fmt.Errorf("Вакансий не найдено")
+	}
+
+	return vacancies, nil
+}
+
 func (svc *VacancyServiceImpl) UpdateVacancy(ctx context.Context, vacancy *entity.Vacancy) error {
 	existingVacancy, err := svc.vacancyRepo.GetVacancyByID(ctx, vacancy.ID)
 	if err != nil {
@@ -48,30 +74,4 @@ func (svc *VacancyServiceImpl) DeleteVacancy(ctx context.Context, id int64) erro
 	}
 
 	return nil
-}
-
-func (svc *VacancyServiceImpl) GetAllVacancies(ctx context.Context) ([]*entity.Vacancy, error) {
-	vacancies, err := svc.vacancyRepo.GetAllVacancies(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	if len(vacancies) == 0 {
-		return nil, fmt.Errorf("Вакансий не найдено")
-	}
-
-	return vacancies, nil
-}
-
-func (svc *VacancyServiceImpl) GetVacancyByID(ctx context.Context, id int64) (*entity.Vacancy, error) {
-	vacancy, err := svc.vacancyRepo.GetVacancyByID(ctx, id)
-	if err != nil {
-		return nil, err
-	}
-
-	return vacancy, nil
-}
-
-func (svc *VacancyServiceImpl) CreateVacancy(ctx context.Context, vacancy *entity.Vacancy) error {
-	return svc.vacancyRepo.CreateVacancy(ctx, vacancy)
 }
