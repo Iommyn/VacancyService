@@ -35,8 +35,6 @@ func (h *vacancyHandler) GetVacancyByID(ctx *gin.Context) {
 			h.handleErrorResponse(ctx, http.StatusNotFound, "Вакансия не найдена!", err)
 		case err.Error() == "500":
 			h.handleErrorResponse(ctx, http.StatusInternalServerError, "Ошибка на стороне сервера!", err)
-		default:
-			h.handleErrorResponse(ctx, http.StatusInternalServerError, "Неизвестная ошибка!", err)
 		}
 		return
 	}
@@ -46,14 +44,13 @@ func (h *vacancyHandler) GetVacancyByID(ctx *gin.Context) {
 
 func (h *vacancyHandler) GetAllVacancies(ctx *gin.Context) {
 	vacancies, err := h.vacancyUsecase.GetAllVacancies(ctx)
+
 	if err != nil {
 		switch {
 		case err.Error() == "404":
 			h.handleErrorResponse(ctx, http.StatusNotFound, "Вакансии не найдены!", err)
 		case err.Error() == "500":
 			h.handleErrorResponse(ctx, http.StatusInternalServerError, "Ошибка на стороне сервера!", err)
-		default:
-			h.handleErrorResponse(ctx, http.StatusInternalServerError, "Неизвестная ошибка!", err)
 		}
 		return
 	}
@@ -62,8 +59,7 @@ func (h *vacancyHandler) GetAllVacancies(ctx *gin.Context) {
 }
 
 func (h *vacancyHandler) CreateVacancy(ctx *gin.Context) {
-
-	var vacancy model.VacancyRequestCreate
+	var vacancy model.VacancyRequest
 	if err := ctx.ShouldBindJSON(&vacancy); err != nil {
 		h.logger.Error().Err(err).Msg("HTTP-Handler: Ошибка десериализации структуры VacancyRequestCreate")
 		ctx.JSON(http.StatusBadRequest, model.ErrorResponse{
@@ -102,7 +98,7 @@ func (h *vacancyHandler) EditVacancy(ctx *gin.Context) {
 		return
 	}
 
-	var vacancy model.VacancyRequestUpdate
+	var vacancy model.VacancyRequest
 	if err := ctx.ShouldBindJSON(&vacancy); err != nil {
 		h.logger.Error().Err(err).Msg("HTTP-Handler: Ошибка десериализации структуры VacancyRequestUpdate")
 		ctx.JSON(http.StatusBadRequest, model.ErrorResponse{
@@ -126,8 +122,6 @@ func (h *vacancyHandler) EditVacancy(ctx *gin.Context) {
 			h.handleErrorResponse(ctx, http.StatusNotFound, "Вакансия не найдена!", err)
 		case err.Error() == "500":
 			h.handleErrorResponse(ctx, http.StatusInternalServerError, "Ошибка на стороне сервера!", err)
-		default:
-			h.handleErrorResponse(ctx, http.StatusInternalServerError, "Неизвестная ошибка!", err)
 		}
 		return
 	}
@@ -150,8 +144,6 @@ func (h *vacancyHandler) DeleteVacancy(ctx *gin.Context) {
 			h.handleErrorResponse(ctx, http.StatusNotFound, "Вакансия не найдена!", err)
 		case err.Error() == "500":
 			h.handleErrorResponse(ctx, http.StatusInternalServerError, "Ошибка на стороне сервера!", err)
-		default:
-			h.handleErrorResponse(ctx, http.StatusInternalServerError, "Неизвестная ошибка!", err)
 		}
 		return
 	}
