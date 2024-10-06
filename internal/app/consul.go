@@ -56,7 +56,7 @@ func (srv *ServiceDiscovery) RegisterService(log zerolog.Logger, conf *config.Co
 	register := &api.AgentServiceRegistration{
 		ID:      conf.ConsulConf.ConsulId,
 		Name:    conf.ConsulConf.ConsulName,
-		Tags:    []string{"vacancyservice"},
+		Tags:    []string{"vacancy"},
 		Address: conf.ConsulConf.ConsulServiceAddress,
 		Port:    conf.ConsulConf.ConsulServicePort,
 		Check:   check,
