@@ -10,6 +10,7 @@ import (
 	"VacancyService/internal/usecases"
 	"context"
 	"errors"
+	"github.com/shirou/gopsutil/v4/cpu"
 	"net/http"
 	"os"
 	"os/signal"
@@ -106,7 +107,14 @@ func collectMetrics() {
 		var memStats runtime.MemStats
 		runtime.ReadMemStats(&memStats)
 
+		cpuStats, _ := cpu.Percent(time.Second, false)
+		var totalCPUUsage float64
+		for _, usage := range cpuStats {
+			totalCPUUsage += usage
+		}
+		averageCPUUsage := totalCPUUsage / float64(len(cpuStats))
+
 		metrics.VacancyMemoryUsage.Set(float64(memStats.Alloc) / 1024 / 1024)
-		metrics.VacancyCPUUsage.Set(float64(runtime.NumCPU()))
+		metrics.VacancyCPUUsage.Set(averageCPUUsage)
 	}
 }
