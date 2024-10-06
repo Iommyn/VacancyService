@@ -78,11 +78,8 @@ func (v vacancyRepository) GetAllVacancies(ctx context.Context) ([]*entity.Vacan
 	vacancyModels, err := models.Vacansies().All(ctx, dbReplica)
 
 	if err != nil {
-		var pqErr *pq.Error
-		if errors.As(err, &pqErr) {
-			if pqErr.Code == "23505" {
-				return nil, fmt.Errorf("409")
-			}
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, fmt.Errorf("404")
 		}
 		return nil, fmt.Errorf("500")
 	}

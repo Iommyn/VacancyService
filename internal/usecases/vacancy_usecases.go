@@ -28,12 +28,7 @@ func (svc *VacancyServiceImpl) CreateVacancy(ctx context.Context, vacancy *entit
 }
 
 func (svc *VacancyServiceImpl) GetVacancyByID(ctx context.Context, id int64) (*entity.Vacancy, error) {
-	vacancy, err := svc.vacancyRepo.GetVacancyByID(ctx, id)
-	if err != nil {
-		return nil, err
-	}
-
-	return vacancy, nil
+	return svc.vacancyRepo.GetVacancyByID(ctx, id)
 }
 
 func (svc *VacancyServiceImpl) GetAllVacancies(ctx context.Context) ([]*entity.Vacancy, error) {
@@ -67,10 +62,5 @@ func (svc *VacancyServiceImpl) UpdateVacancy(ctx context.Context, vacancy *entit
 }
 
 func (svc *VacancyServiceImpl) DeleteVacancy(ctx context.Context, id int64) error {
-	err := svc.vacancyRepo.DeleteVacancy(ctx, id)
-	if err != nil {
-		return fmt.Errorf("Не удалось удалить вакансию: %w", err)
-	}
-
-	return nil
+	return svc.vacancyRepo.DeleteVacancy(ctx, id)
 }
