@@ -7,7 +7,7 @@ SERVICE_NAME ?= $(shell echo ${APP_NAME} | sed 's/-/_/g')
 
 .PHONY: run
 run:
-	go run .\cmd\vacancyservice\.
+	go run .\cmd\vacancy_service\.
 
 .PHONY: test
 test:

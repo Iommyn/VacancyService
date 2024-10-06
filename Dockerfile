@@ -13,7 +13,7 @@ COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
 
-RUN go build -tags=jsoniter -ldflags="-s -w" -o /app/ExampleService cmd/vacancy_service/main.go
+RUN go build -tags=jsoniter -ldflags="-s -w" -o /app/VacancyService cmd/vacancy_service/main.go
 
 # Второй этап: запуск
 FROM alpine:latest
@@ -23,6 +23,6 @@ COPY --from=builder /usr/share/zoneinfo/Asia/Shanghai /usr/share/zoneinfo/Asia/S
 ENV TZ Asia/Shanghai
 
 WORKDIR /app
-COPY --from=builder /app/ExampleService /app/ExampleService
+COPY --from=builder /app/VacancyService /app/VacancyService
 
-CMD ["./ExampleService"]
+CMD ["./VacancyService"]
