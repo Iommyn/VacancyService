@@ -10,7 +10,7 @@ services:
     network_mode: "host"
     environment:
       - TZ=Asia/Shanghai
-      - APP_NAME=vacancyservice
+      - APP_NAME=vacancy_service
       - APP_LISTENER=0.0.0.0:8080
 
       # ServiceDiscovery Consul
