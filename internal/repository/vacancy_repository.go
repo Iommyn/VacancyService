@@ -65,8 +65,8 @@ func (v vacancyRepository) GetVacancyByID(ctx context.Context, id int64) (*entit
 		ID:          vacancyModel.ID,
 		Title:       vacancyModel.Title,
 		Description: vacancyModel.Description,
-		Updated_At:  vacancyModel.UpdatedAt.Format(time.RFC3339),
-		Created_At:  vacancyModel.CreatedAt.Format(time.RFC3339),
+		UpdatedAt:   vacancyModel.UpdatedAt.Format(time.RFC3339),
+		CreatedAt:   vacancyModel.CreatedAt.Format(time.RFC3339),
 	}
 
 	return vacancy, nil
@@ -93,8 +93,8 @@ func (v vacancyRepository) GetAllVacancies(ctx context.Context) ([]*entity.Vacan
 			ID:          vacancyModel.ID,
 			Title:       vacancyModel.Title,
 			Description: vacancyModel.Description,
-			Updated_At:  vacancyModel.UpdatedAt.Format(time.RFC3339),
-			Created_At:  vacancyModel.CreatedAt.Format(time.RFC3339),
+			UpdatedAt:   vacancyModel.UpdatedAt.Format(time.RFC3339),
+			CreatedAt:   vacancyModel.CreatedAt.Format(time.RFC3339),
 		}
 		vacancies = append(vacancies, vacancy)
 	}
